@@ -1,0 +1,30 @@
+# Local environment files and secrets
+.env
+.env.*
+!.env.example
+server/.env
+server/.env.*
+!server/.env.example
+
+# Dependencies and generated build output
+node_modules/
+client/node_modules/
+server/node_modules/
+client/dist/
+coverage/
+playwright-report/
+test-results/
+
+# Runtime data: uploads, patient documents, and database backups
+server/storage/
+storage/
+*.dump
+*.backup
+
+# Local logs and editor/OS files
+*.log
+npm-debug.log*
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/

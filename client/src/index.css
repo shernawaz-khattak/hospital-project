@@ -1,0 +1,47 @@
+@import '@fontsource-variable/atkinson-hyperlegible-next';
+@import '@fontsource/barlow-semi-condensed/500.css';
+@import '@fontsource/barlow-semi-condensed/600.css';
+@import '@fontsource/barlow-semi-condensed/700.css';
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --way-home: #12282F; --way-patients: #0E7C86; --way-appointments: #2F5DB3; --way-wards: #7A4BB0; --way-clinical: #0B6B5A;
+    --way-lab: #C7861B; --way-pharmacy: #3E8E3A; --way-billing: #A23B72; --way-admin: #4F5D75; --way-system: #5F6B7A; --way-portal: #0E7C86;
+  }
+  html { -webkit-text-size-adjust: 100%; }
+  body { @apply bg-paper text-ink font-sans antialiased; font-feature-settings: 'tnum' 1; }
+  h1, h2, h3 { @apply font-sign text-ink; letter-spacing: 0.005em; }
+  :focus-visible { outline: 2px solid #0B6B5A; outline-offset: 2px; border-radius: 4px; }
+  ::selection { background: #CFE7DF; }
+  input, select, textarea { @apply text-ink; }
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
+  }
+}
+
+@layer components {
+  .field-input {
+    @apply block w-full rounded border border-rule bg-white px-3 py-2 text-base text-ink placeholder:text-muted/70
+      transition-colors focus:border-scrub focus:outline-none focus:ring-2 focus:ring-scrub/20 disabled:bg-paper disabled:text-muted;
+  }
+  .field-input[aria-invalid='true'] { @apply border-alert ring-2 ring-alert/15; }
+  .panel { @apply rounded-panel border border-rule bg-white; }
+  .table-base { @apply w-full border-collapse text-sm; }
+  .table-base th { @apply border-b border-rule bg-paper px-3 py-2 text-left text-xs font-semibold text-muted; }
+  .table-base td { @apply border-b border-rule/70 px-3 py-2.5 align-middle; }
+  .table-base tbody tr:hover { @apply bg-paper/60; }
+  .link { @apply text-scrub underline decoration-scrub/30 underline-offset-2 hover:decoration-scrub; }
+  /* Wayfinding band: the department colour, like hospital corridor signage */
+  .way-band { box-shadow: inset 5px 0 0 var(--way, #12282F); }
+}
+
+@media print {
+  .no-print { display: none !important; }
+  body { background: white; }
+  .print-sheet { box-shadow: none !important; border: none !important; padding: 0 !important; }
+  @page { margin: 14mm; }
+}

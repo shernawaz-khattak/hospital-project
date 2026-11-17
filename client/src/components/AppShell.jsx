@@ -12,8 +12,8 @@ function Sidebar({ onNavigate }) {
   const { user, config } = useAuth();
   const groups = navFor(user);
   return (
-    <nav className="flex h-full flex-col bg-ink text-white" aria-label="Main">
-      <Link to={user?.role === 'patient' ? '/portal' : '/dashboard'} className="flex items-center gap-2.5 px-5 py-4" onClick={onNavigate}>
+    <nav className="flex h-full flex-col bg-gradient-to-b from-[#102A32] via-[#153840] to-[#102A32] text-white" aria-label="Main">
+      <Link to={user?.role === 'patient' ? '/portal' : '/dashboard'} className="flex items-center gap-3 border-b border-white/10 px-5 py-5" onClick={onNavigate}>
         <svg viewBox="0 0 32 32" className="h-8 w-8 shrink-0" aria-hidden><rect width="32" height="32" rx="7" fill="#fff" /><path d="M13 7h6v6h6v6h-6v6h-6v-6H7v-6h6z" fill="#12282F" /><rect x="0" y="26" width="32" height="6" fill="#0B6B5A" /></svg>
         <span className="min-w-0">
           <span className="block font-sign text-lg font-semibold leading-tight">{config?.hospitalName ?? 'Hospital'}</span>
@@ -22,13 +22,13 @@ function Sidebar({ onNavigate }) {
       </Link>
       <div className="flex-1 overflow-y-auto px-3 pb-6">
         {groups.map((g) => (
-          <div key={g.group ?? 'top'} className="mt-4 first:mt-1">
-            {g.group && <p className="px-2 pb-1 text-xs font-semibold text-white/50">{g.group}</p>}
+          <div key={g.group ?? 'top'} className="mt-5 first:mt-2">
+            {g.group && <p className="px-2 pb-2 text-[0.68rem] font-bold uppercase tracking-[0.14em] text-white/45">{g.group}</p>}
             <ul className="space-y-0.5">
               {g.items.map((i) => (
                 <li key={i.to}>
                   <NavLink to={i.to} end={i.end ?? i.to === '/dashboard'} onClick={onNavigate} style={{ '--way': `var(--way-${i.way})` }}
-                    className={({ isActive }) => cx('flex items-center gap-2.5 rounded px-2.5 py-2 text-sm transition-colors', isActive ? 'way-band bg-white text-ink font-semibold' : 'text-white/85 hover:bg-white/10')}>
+                    className={({ isActive }) => cx('flex items-center gap-2.5 rounded-xl px-2.5 py-2.5 text-sm transition-all duration-150', isActive ? 'way-band bg-white text-ink font-semibold shadow-sm' : 'text-white/75 hover:bg-white/[0.09] hover:text-white')}>
                     <span className="h-2.5 w-2.5 shrink-0 rounded-sm" style={{ background: `var(--way-${i.way})`, boxShadow: '0 0 0 1px rgba(255,255,255,.35)' }} aria-hidden />
                     <i.icon className="h-4 w-4 shrink-0 opacity-80" aria-hidden />
                     <span className="truncate">{i.label}</span>
@@ -137,12 +137,12 @@ export default function AppShell() {
         </div>
       )}
       <div className="flex min-w-0 flex-1 flex-col">
-        <header className="no-print sticky top-0 z-30 flex items-center gap-3 border-b border-rule bg-white/95 px-4 py-2.5 backdrop-blur">
+        <header className="no-print sticky top-0 z-30 flex items-center gap-3 border-b border-white/70 bg-white/85 px-4 py-3 shadow-sm backdrop-blur-xl">
           <button className="rounded p-2 hover:bg-ink/5 lg:hidden" onClick={() => setMobileOpen(true)} aria-label="Open menu"><Menu className="h-5 w-5" /></button>
           <PatientLookup />
           <div className="ml-auto flex items-center gap-1"><NotificationBell /><UserMenu /></div>
         </header>
-        <main id="main" className="mx-auto w-full max-w-[1400px] flex-1 px-4 py-5 sm:px-6">
+        <main id="main" className="mx-auto w-full max-w-[1440px] flex-1 px-4 py-6 sm:px-6 lg:px-8">
           <Outlet />
         </main>
       </div>

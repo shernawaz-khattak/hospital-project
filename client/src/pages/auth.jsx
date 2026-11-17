@@ -14,8 +14,8 @@ function AuthLayout({ children, title }) {
   const [meta, setMeta] = useState(null);
   useEffect(() => { api('/meta').then(setMeta).catch(() => {}); }, []);
   return (
-    <div className="grid min-h-screen lg:grid-cols-[1fr_1.1fr]">
-      <section className="hidden flex-col justify-between bg-ink px-12 py-10 text-white lg:flex">
+    <div className="auth-layout grid min-h-screen lg:grid-cols-[1fr_1.1fr]">
+      <section className="auth-visual hidden flex-col justify-between px-12 py-10 text-white lg:flex">
         <div className="flex items-center gap-3">
           <svg viewBox="0 0 32 32" className="h-10 w-10" aria-hidden><rect width="32" height="32" rx="7" fill="#fff" /><path d="M13 7h6v6h6v6h-6v6h-6v-6H7v-6h6z" fill="#12282F" /><rect x="0" y="26" width="32" height="6" fill="#0B6B5A" /></svg>
           <div>
@@ -35,8 +35,8 @@ function AuthLayout({ children, title }) {
         </div>
         <p className="text-xs text-white/50">Authorised staff and registered patients only. Activity is recorded in the audit log.</p>
       </section>
-      <section className="flex items-center justify-center px-5 py-10">
-        <div className="w-full max-w-sm">
+      <section className="auth-form-panel flex items-center justify-center px-5 py-10">
+        <div className="auth-card w-full max-w-sm">
           <h1 className="font-sign text-3xl font-semibold">{title}</h1>
           <div className="mt-6">{children}</div>
           {meta?.devOutbox && (

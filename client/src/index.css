@@ -9,36 +9,66 @@
 
 @layer base {
   :root {
-    --way-home: #12282F; --way-patients: #0E7C86; --way-appointments: #2F5DB3; --way-wards: #7A4BB0; --way-clinical: #0B6B5A;
+    --way-home: #142D35; --way-patients: #0E7C86; --way-appointments: #2F5DB3; --way-wards: #7A4BB0; --way-clinical: #087F72;
     --way-lab: #C7861B; --way-pharmacy: #3E8E3A; --way-billing: #A23B72; --way-admin: #4F5D75; --way-system: #5F6B7A; --way-portal: #0E7C86;
   }
-  html { -webkit-text-size-adjust: 100%; }
-  body { @apply bg-paper text-ink font-sans antialiased; font-feature-settings: 'tnum' 1; }
+  html { -webkit-text-size-adjust: 100%; scroll-behavior: smooth; }
+  body {
+    @apply text-ink font-sans antialiased;
+    background-color: #F3F7F8;
+    background-image: radial-gradient(ellipse at 12% 0%, rgba(13, 127, 114, .08), transparent 33rem), radial-gradient(ellipse at 100% 14%, rgba(47, 93, 179, .055), transparent 30rem);
+    background-attachment: fixed;
+    font-feature-settings: 'tnum' 1;
+  }
   h1, h2, h3 { @apply font-sign text-ink; letter-spacing: 0.005em; }
-  :focus-visible { outline: 2px solid #0B6B5A; outline-offset: 2px; border-radius: 4px; }
+  :focus-visible { outline: 2px solid #087F72; outline-offset: 2px; border-radius: 6px; }
   ::selection { background: #CFE7DF; }
   input, select, textarea { @apply text-ink; }
   @media (prefers-reduced-motion: reduce) {
-    *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
+    *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; scroll-behavior: auto !important; }
   }
 }
 
 @layer components {
   .field-input {
-    @apply block w-full rounded border border-rule bg-white px-3 py-2 text-base text-ink placeholder:text-muted/70
-      transition-colors focus:border-scrub focus:outline-none focus:ring-2 focus:ring-scrub/20 disabled:bg-paper disabled:text-muted;
+    @apply block w-full rounded-xl border border-rule bg-white px-3 py-2 text-base text-ink placeholder:text-muted/70
+      transition duration-150 focus:border-scrub focus:outline-none focus:ring-2 focus:ring-scrub/20 disabled:bg-paper disabled:text-muted;
+    box-shadow: 0 1px 2px rgba(20, 45, 53, .035);
   }
   .field-input[aria-invalid='true'] { @apply border-alert ring-2 ring-alert/15; }
-  .panel { @apply rounded-panel border border-rule bg-white; }
+  .panel {
+    @apply rounded-panel border border-rule bg-white;
+    box-shadow: 0 8px 24px rgba(20, 45, 53, .055), 0 1px 2px rgba(20, 45, 53, .04);
+  }
   .table-base { @apply w-full border-collapse text-sm; }
-  .table-base th { @apply border-b border-rule bg-paper px-3 py-2 text-left text-xs font-semibold text-muted; }
-  .table-base td { @apply border-b border-rule/70 px-3 py-2.5 align-middle; }
-  .table-base tbody tr:hover { @apply bg-paper/60; }
+  .table-base th { @apply border-b border-rule bg-[#F5F9F9] px-3 py-3 text-left text-[0.7rem] font-bold uppercase tracking-[0.08em] text-muted; }
+  .table-base td { @apply border-b border-rule/70 px-3 py-3 align-middle; }
+  .table-base tbody tr { transition: background-color .15s ease; }
+  .table-base tbody tr:hover { @apply bg-[#F3F8F8]; }
   .link { @apply text-scrub underline decoration-scrub/30 underline-offset-2 hover:decoration-scrub; }
-  /* Wayfinding band: the department colour, like hospital corridor signage */
-  .way-band { box-shadow: inset 5px 0 0 var(--way, #12282F); }
+  .way-band { box-shadow: inset 5px 0 0 var(--way, #142D35); }
+  .page-heading { background: linear-gradient(112deg, rgba(255,255,255,.97), rgba(243,249,248,.94)); box-shadow: 0 8px 22px rgba(20, 45, 53, .045); }
+  .stat-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: .75rem; }
+  @media (min-width: 640px) { .stat-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+  @media (min-width: 1280px) { .stat-grid { grid-template-columns: repeat(4, minmax(0, 1fr)); } }
+  .stat-card {
+    @apply relative min-w-0 overflow-hidden rounded-panel border border-rule bg-white px-4 py-4;
+    box-shadow: 0 7px 20px rgba(20, 45, 53, .045);
+    transition: transform .16s ease, box-shadow .16s ease;
+  }
+  .stat-card:hover { transform: translateY(-2px); box-shadow: 0 12px 26px rgba(20, 45, 53, .09); }
+  .stat-card::after { content: ''; position: absolute; right: -24px; top: -30px; width: 88px; height: 88px; border-radius: 999px; background: rgba(8, 127, 114, .055); pointer-events: none; }
+  .auth-visual { position: relative; overflow: hidden; background: linear-gradient(145deg, #102A32 0%, #153A40 55%, #0B5B50 100%); }
+  .auth-visual::before { content: ''; position: absolute; width: 26rem; height: 26rem; right: -10rem; top: 18%; border-radius: 50%; background: radial-gradient(circle, rgba(71, 197, 171, .28), rgba(71, 197, 171, 0) 70%); }
+  .auth-visual::after { content: ''; position: absolute; width: 18rem; height: 18rem; left: -9rem; bottom: 12%; border-radius: 50%; background: radial-gradient(circle, rgba(107, 169, 238, .16), transparent 70%); }
+  .auth-visual > * { position: relative; z-index: 1; }
+  .auth-form-panel { background: linear-gradient(150deg, rgba(246,250,250,.92), rgba(237,245,245,.96)); }
+  .auth-card { padding: 2rem; border: 1px solid rgba(220,231,232,.9); border-radius: 1.5rem; background: rgba(255,255,255,.94); box-shadow: 0 20px 60px rgba(20,45,53,.09); }
 }
 
+@media (max-width: 639px) {
+  .auth-card { padding: 1.4rem; }
+}
 @media print {
   .no-print { display: none !important; }
   body { background: white; }

@@ -17,7 +17,7 @@ const VARIANTS = {
 export function Button({ variant = 'primary', size = 'md', loading, icon: Icon, children, className, disabled, ...rest }) {
   const sizes = { sm: 'px-2.5 py-1.5 text-sm gap-1.5', md: 'px-3.5 py-2 text-sm gap-2', lg: 'px-5 py-2.5 text-base gap-2' };
   return (
-    <button type="button" className={cx('inline-flex items-center justify-center rounded font-semibold transition-colors disabled:cursor-not-allowed disabled:opacity-55', VARIANTS[variant], sizes[size], className)} disabled={disabled || loading} {...rest}>
+    <button type="button" className={cx('inline-flex items-center justify-center rounded-xl font-semibold transition-all duration-150 hover:-translate-y-px hover:shadow-sm disabled:cursor-not-allowed disabled:opacity-55 disabled:hover:translate-y-0 disabled:hover:shadow-none', VARIANTS[variant], sizes[size], className)} disabled={disabled || loading} {...rest}>
       {loading ? <Loader2 className="h-4 w-4 animate-spin" aria-hidden /> : Icon ? <Icon className="h-4 w-4 shrink-0" aria-hidden /> : null}
       {children}
     </button>
@@ -171,7 +171,7 @@ export function QueryState({ query, children, empty, loadingLabel }) {
 // ----------------------------------------------------------------- layout pieces
 export function PageHeader({ title, subtitle, way = 'home', actions, back }) {
   return (
-    <header className="way-band mb-5 flex flex-wrap items-end justify-between gap-3 rounded-panel border border-rule bg-white py-4 pl-6 pr-4" style={{ '--way': `var(--way-${way})` }}>
+    <header className="page-heading way-band mb-5 flex flex-wrap items-end justify-between gap-3 rounded-panel border border-rule py-5 pl-6 pr-5" style={{ '--way': `var(--way-${way})` }}>
       <div className="min-w-0">
         {back}
         <h1 className="text-2xl font-semibold leading-tight">{title}</h1>
@@ -186,7 +186,7 @@ export function Panel({ title, actions, children, className, bodyClass, subtitle
   return (
     <section className={cx('panel', className)}>
       {(title || actions) && (
-        <div className="flex flex-wrap items-center justify-between gap-2 border-b border-rule px-4 py-3">
+        <div className="flex flex-wrap items-center justify-between gap-2 rounded-t-panel border-b border-rule bg-[#F8FBFB] px-5 py-4">
           <div>
             {title && <h2 className="text-lg font-semibold">{title}</h2>}
             {subtitle && <p className="text-xs text-muted">{subtitle}</p>}
@@ -202,12 +202,12 @@ export function Panel({ title, actions, children, className, bodyClass, subtitle
 /** A single banded strip of key numbers separated by rules (not a grid of cards). */
 export function StatStrip({ items }) {
   return (
-    <div className="panel grid grid-cols-2 divide-rule overflow-hidden sm:grid-cols-3 lg:flex lg:divide-x">
+    <div className="stat-grid">
       {items.map((it) => (
-        <div key={it.label} className={cx('min-w-0 flex-1 border-b border-rule px-4 py-3 lg:border-b-0', it.tone === 'alert' && 'bg-alert-light/60', it.tone === 'caution' && 'bg-caution-light/60')}>
-          <p className="font-sign text-3xl font-semibold leading-none tabular-nums">{it.value}</p>
-          <p className="mt-1.5 text-xs font-semibold text-muted">{it.label}</p>
-          {it.hint && <p className="text-xs text-muted">{it.hint}</p>}
+        <div key={it.label} className={cx('stat-card', it.tone === 'alert' && 'border-alert/30 bg-alert-light/70', it.tone === 'caution' && 'border-caution/30 bg-caution-light/70')}>
+          <p className="relative z-10 font-sign text-3xl font-semibold leading-none tabular-nums">{it.value}</p>
+          <p className="relative z-10 mt-2 text-xs font-semibold text-muted">{it.label}</p>
+          {it.hint && <p className="relative z-10 text-xs text-muted">{it.hint}</p>}
         </div>
       ))}
     </div>

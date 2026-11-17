@@ -4,11 +4,11 @@ export default {
   theme: {
     extend: {
       colors: {
-        paper: '#F6F8F7',
-        ink: { DEFAULT: '#12282F', soft: '#2B4048' },
-        muted: '#5A6B70',
-        rule: '#D8E0DE',
-        scrub: { DEFAULT: '#0B6B5A', dark: '#08503F', light: '#E3F1EC' },
+        paper: '#F3F7F8',
+        ink: { DEFAULT: '#142D35', soft: '#304851' },
+        muted: '#60757B',
+        rule: '#DCE7E8',
+        scrub: { DEFAULT: '#087F72', dark: '#066457', light: '#E2F4F0' },
         alert: { DEFAULT: '#B42318', light: '#FDECEA' },
         caution: { DEFAULT: '#9A5B05', light: '#FDF3DF' },
         ok: { DEFAULT: '#127A4B', light: '#E5F4EC' },
@@ -26,7 +26,7 @@ export default {
       fontSize: {
         xs: ['0.78rem', '1.15rem'], sm: ['0.875rem', '1.3rem'], base: ['0.95rem', '1.45rem'], lg: ['1.1rem', '1.55rem'], xl: ['1.35rem', '1.7rem'], '2xl': ['1.75rem', '2.1rem'], '3xl': ['2.4rem', '2.6rem'],
       },
-      borderRadius: { DEFAULT: '6px', panel: '10px' },
+      borderRadius: { DEFAULT: '10px', panel: '16px' },
     },
   },
   plugins: [],

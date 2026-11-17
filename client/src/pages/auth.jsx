@@ -24,7 +24,7 @@ function AuthLayout({ children, title }) {
           </div>
         </div>
         <div>
-          <p className="max-w-sm font-sign text-3xl font-medium leading-tight">One record for every patient, from the front desk to the pharmacy counter.</p>
+          <p className="max-w-sm font-sign text-3xl font-medium leading-tight">From your first appointment to every next step, your care stays connected.</p>
           <ul className="mt-8 max-w-sm space-y-1.5">
             {DIRECTORY.map(([name, way]) => (
               <li key={name} className="flex items-center justify-between rounded bg-white/[0.06] py-2 pl-4 pr-3 text-sm" style={{ boxShadow: `inset 5px 0 0 var(--way-${way})` }}>

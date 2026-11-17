@@ -103,14 +103,14 @@ function NotificationBell() {
 function UserMenu() {
   const { user, logout } = useAuth();
   const [open, setOpen] = useState(false);
-  const initials = user.fullName.replace(/^Dr\.\s*/, '').split(' ').map((s) => s[0]).slice(0, 2).join('');
+  const initials = user.fullName.replace(/^Dr\.\s*/, '').split(' ').map((s) => s[0]).slice(0, 2).join('').toLocaleUpperCase();
   return (
     <div className="relative">
-      <button onClick={() => setOpen((o) => !o)} className="flex items-center gap-2 rounded py-1 pl-1 pr-2 hover:bg-ink/5" aria-expanded={open} aria-label="Account menu">
-        <span className="flex h-8 w-8 items-center justify-center rounded-full bg-ink font-sign text-sm font-semibold text-white">{initials}</span>
+      <button onClick={() => setOpen((o) => !o)} className="group flex items-center gap-2.5 rounded-xl border border-transparent py-1.5 pl-1.5 pr-3 transition hover:border-rule hover:bg-paper/80" aria-expanded={open} aria-label="Account menu">
+        <span className="relative flex h-10 w-10 items-center justify-center rounded-full border-2 border-white bg-gradient-to-br from-scrub via-[#149184] to-[#1D5D7A] font-sign text-sm font-bold tracking-wide text-white shadow-sm ring-1 ring-scrub/20"><span className="absolute inset-[3px] rounded-full border border-white/25" aria-hidden /><span className="relative">{initials}</span></span>
         <span className="hidden text-left sm:block">
           <span className="block text-sm font-semibold leading-tight">{user.fullName}</span>
-          <span className="block text-xs text-muted">{ROLE_LABEL[user.role]}</span>
+          <span className="mt-0.5 inline-flex rounded-full bg-scrub-light px-2 py-0.5 text-[0.68rem] font-semibold tracking-wide text-scrub-dark">{ROLE_LABEL[user.role]}</span>
         </span>
       </button>
       {open && (

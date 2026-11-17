@@ -7,14 +7,19 @@ import { Button, Callout, Input, Loading, Panel, useForm } from '../components/u
 import { dateTime } from '../lib/format.js';
 
 const DIRECTORY = [
-  ['Out-patient clinics', 'appointments'], ['Wards & admissions', 'wards'], ['Laboratory', 'lab'], ['Pharmacy', 'pharmacy'], ['Accounts', 'billing'], ['Patient portal', 'patients'],
+  ['Out-patient clinics & OPD', 'Digital token & slot booking', 'appointments'],
+  ['Wards & Admissions', 'Live bed occupancy & transfers', 'wards'],
+  ['Clinical Care & EHR', 'Diagnoses, vitals & prescriptions', 'clinical'],
+  ['Diagnostic Laboratory', 'Test requests & PDF reports', 'lab'],
+  ['Pharmacy & Stock', 'Batch expiry & automated dispensing', 'pharmacy'],
+  ['Accounts & Billing', 'Itemised invoicing & insurance', 'billing'],
 ];
 
 function AuthLayout({ children, title }) {
   const [meta, setMeta] = useState(null);
   useEffect(() => { api('/meta').then(setMeta).catch(() => {}); }, []);
   return (
-    <div className="auth-layout grid min-h-screen lg:grid-cols-[1fr_1.1fr]">
+    <div className="auth-layout grid min-h-screen lg:grid-cols-[1.15fr_.85fr]">
       <section className="auth-visual hidden flex-col justify-between px-12 py-10 text-white lg:flex">
         <div className="flex items-center gap-3">
           <svg viewBox="0 0 32 32" className="h-10 w-10" aria-hidden><rect width="32" height="32" rx="7" fill="#fff" /><path d="M13 7h6v6h6v6h-6v6h-6v-6H7v-6h6z" fill="#12282F" /><rect x="0" y="26" width="32" height="6" fill="#0B6B5A" /></svg>
@@ -24,11 +29,12 @@ function AuthLayout({ children, title }) {
           </div>
         </div>
         <div>
-          <p className="max-w-sm font-sign text-3xl font-medium leading-tight">From your first appointment to every next step, your care stays connected.</p>
-          <ul className="mt-8 max-w-sm space-y-1.5">
-            {DIRECTORY.map(([name, way]) => (
-              <li key={name} className="flex items-center justify-between rounded bg-white/[0.06] py-2 pl-4 pr-3 text-sm" style={{ boxShadow: `inset 5px 0 0 var(--way-${way})` }}>
-                <span>{name}</span>
+          <p className="max-w-2xl font-sign text-3xl font-medium leading-tight">From your first appointment to every next step, your care stays connected.</p>
+          <ul className="mt-8 grid max-w-2xl grid-cols-1 gap-3 sm:grid-cols-2">
+            {DIRECTORY.map(([name, description, way]) => (
+              <li key={name} className="way-band min-w-0 rounded-2xl border border-white/10 bg-white/[0.07] px-4 py-3.5 text-white transition duration-150 hover:border-white/20 hover:bg-white/[0.11]" style={{ "--way": `var(--way-${way})` }}>
+                <span className="block font-semibold leading-snug">{name}</span>
+                <span className="mt-1 block text-sm leading-snug text-white/60">{description}</span>
               </li>
             ))}
           </ul>

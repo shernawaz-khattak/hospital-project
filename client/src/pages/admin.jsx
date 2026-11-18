@@ -343,16 +343,57 @@ export function StaffingPage() {
   );
 }
 
+function NurseForm({ deps, onClose, onCreated }) {
+  const f = useForm({
+    fullName: '', username: '', email: '', phone: '', departmentId: '',
+    designation: 'Nurse', employeeCode: '', dateJoined: '',
+  });
+  const save = useAction((v) => post('/users', {
+    ...v, role: 'nurse', departmentId: v.departmentId || null,
+    designation: v.designation || 'Nurse', employeeCode: v.employeeCode || undefined,
+    dateJoined: v.dateJoined || undefined,
+  }), {
+    success: 'Nurse added',
+    invalidate: ['users', 'staff', 'nurses'],
+    onError: (e) => { f.fromError(e); return Boolean(e.fields); },
+    onSuccess: (r) => { onCreated(r, f.values.fullName); onClose(); },
+  });
+  return (
+    <Modal open onClose={onClose} width="max-w-3xl" title="Add nurse" footer={<><Button variant="secondary" onClick={onClose}>Cancel</Button><Button type="submit" form="nurse-form" loading={save.isPending}>Add nurse</Button></>}>
+      <form id="nurse-form" onSubmit={(e) => { e.preventDefault(); save.mutate(f.values); }} noValidate>
+        <div className="grid gap-4 sm:grid-cols-2">
+          <Input label="Full name" required {...f.bind('fullName')} />
+          <Input label="Username" required {...f.bind('username')} />
+          <Input label="Email" type="email" required {...f.bind('email')} />
+          <Input label="Phone" {...f.bind('phone')} />
+          <Input label="Employee code" hint="Leave blank to generate one automatically." {...f.bind('employeeCode')} />
+          <Input label="Designation" {...f.bind('designation')} />
+          <Select label="Department" placeholder="Choose a department" options={deps.filter((d) => d.isActive).map((d) => ({ value: d.id, label: d.name }))} {...f.bind('departmentId')} />
+          <Input label="Date joined" type="date" {...f.bind('dateJoined')} />
+        </div>
+      </form>
+    </Modal>
+  );
+}
+
 // ----------------------------------------------------------------- staff list (UC-11)
 export function StaffListPage({ fixedRole = '' } = {}) {
   const deps = useDepartments();
+  const { can } = useAuth();
+  const [addingNurse, setAddingNurse] = useState(false);
+  const [temp, setTemp] = useState(null);
   const [f, setF] = useState({ search: '', role: fixedRole, departmentId: '', sort: 'name', dir: 'asc', page: 1 });
   const q = useApi(`/staff${qs({ ...f, pageSize: 25 })}`);
   const sortBy = (sort) => setF({ ...f, sort, dir: f.sort === sort && f.dir === 'asc' ? 'desc' : 'asc', page: 1 });
   const head = (label, key) => <button className="font-semibold hover:text-ink" onClick={() => sortBy(key)} aria-label={`Sort by ${label}`}>{label}{f.sort === key ? (f.dir === 'asc' ? ' ▲' : ' ▼') : ''}</button>;
   return (
     <div>
-      <PageHeader way="admin" title={fixedRole === 'nurse' ? 'Nurse roster' : 'Staff list'} subtitle={fixedRole === 'nurse' ? 'Nurses assigned to departments, their status and joining details.' : 'All staff with their roles and departments.'} />
+      <PageHeader
+        way="admin"
+        title={fixedRole === 'nurse' ? 'Nurses' : 'Staff list'}
+        subtitle={fixedRole === 'nurse' ? 'Manage nurse profiles, department assignments and status.' : 'All staff with their roles and departments.'}
+        actions={fixedRole === 'nurse' && can('users.manage') ? <Button icon={Plus} onClick={() => setAddingNurse(true)}>Add nurse</Button> : undefined}
+      />
       <Panel bodyClass="">
         <div className="flex flex-wrap gap-3 border-b border-rule p-3">
           <input className="field-input max-w-xs" placeholder="Search name, employee code" value={f.search} onChange={(e) => setF({ ...f, search: e.target.value, page: 1 })} aria-label="Search staff" />
@@ -376,6 +417,8 @@ export function StaffListPage({ fixedRole = '' } = {}) {
           )}
         </QueryState>
       </Panel>
+      {addingNurse && <NurseForm deps={deps.data?.data ?? []} onClose={() => setAddingNurse(false)} onCreated={(r, name) => setTemp({ name, password: r.tempPassword, emailed: true })} />}
+      <TempPasswordModal value={temp} onClose={() => setTemp(null)} />
     </div>
   );
 }
